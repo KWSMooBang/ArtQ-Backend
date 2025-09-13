@@ -1,0 +1,23 @@
+# Python
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Django static/media
+/static/
+/media/
+
+# environment
+.env
+.env.*
+
+# Docker volume/data
+/pgdata
+
+# IDE Editer
+.vscode/
+.idea/
+
+# log
+*.log
+*.sqlite3

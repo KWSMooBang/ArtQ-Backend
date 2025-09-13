@@ -1,0 +1,11 @@
+django==5.0.6
+djangorestframework==3.15.2
+psycopg[binary]==3.2.1
+Pillow==10.4.0
+python-dotenv==1.0.1
+# Auth & Docs
+djangorestframework-simplejwt==5.3.1
+drf-spectacular==0.27.2
+# PostGIS는 DB 이미지가 담당
+redis==5.0.7
+celery==5.4.0
