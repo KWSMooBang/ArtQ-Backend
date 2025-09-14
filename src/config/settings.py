@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     # Third-party Apps
     'rest_framework',
     'drf_spectacular',
+    'rest_framework_simplejwt.token_blacklist',
+    'phonenumber_field',
 
     # Django Apps
     'django.contrib.admin',
@@ -136,9 +138,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
 }
 
 
