@@ -22,8 +22,6 @@ class SignupView(APIView):
                     'email': 'honggildong@example.com',
                     'password': 'password1234',
                     'nickname': '홍길동',
-                    'profile_image_url': 'https://example.com/profile.jpg',
-                    'prefs': {'theme': 'dark', 'notifications': True}
                 }
             )
         ]
