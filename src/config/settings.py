@@ -41,6 +41,17 @@ INSTALLED_APPS = [
     'drf_spectacular',
 ]
 
+REST_FRAMEWORK = {
+    # Use drf-spectacular's AutoSchema for schema generation
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ArtQ API',
+    'DESCRIPTION': 'API documentation for ArtQ backend',
+    'VERSION': '1.0.0',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
