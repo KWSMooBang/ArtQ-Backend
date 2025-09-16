@@ -54,7 +54,7 @@ class RegistrationView(APIView):
         return Response({"ok": False, "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginView(APIView):
+class LoginView(TokenObtainPairView):
     @extend_schema(
         tags=["auth"],
         operation_id="login",
