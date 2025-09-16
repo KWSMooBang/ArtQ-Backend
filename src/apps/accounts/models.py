@@ -59,15 +59,18 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     # user UUID as basic Public Key
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, unique=True, null=True, blank=True, validators=[phone_validator])
-    birth_date = models.DateField()
     nickname = models.CharField(max_length=30)
+    email = models.EmailField(unique=True, null=True, blank=True)
+    phone = models.CharField(max_length=20, unique=True, null=True, blank=True, validators=[phone_validator])
+    birth_date = models.DateField(null=True, blank=True)
     
     email_verified = models.BooleanField(default=False)
     phone_verified = models.BooleanField(default=False)
+    
+    # connect custom user manager
+    objects = UserManager()
 
-    REQUIRED_FIELDS = ['email', 'full_name', 'birth_date', 'nickname']
+    REQUIRED_FIELDS = ['email']
     
     def __str__(self):
-        return self.username
+        return self.nickname or self.username
