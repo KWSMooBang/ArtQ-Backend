@@ -85,7 +85,7 @@ class LogoutView(APIView):
         tags=["auth"],
         operation_id="logout",
         description="Logout the user (client-side token discard).",
-        request=LogoutSerializer
+        request=LogoutSerializer,
         responses={
             205: OpenApiResponse(description="Logout successful."),
         },
