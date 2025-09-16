@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 User = get_user_model()
 
-class RegistrationSerializer(serializers.ModelSerializer):
+class RegistrationSerializer(serializers.Serializer):
     
     first_name = serializers.CharField(max_length=150)
     last_name = serializers.CharField(max_length=150)
