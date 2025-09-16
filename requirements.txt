@@ -5,6 +5,8 @@ Pillow==10.4.0
 python-dotenv==1.0.1
 # Auth & Docs
 djangorestframework-simplejwt==5.3.1
+djangorestframework-simplejwt[crypto]
+django-phonenumber-field[phonenumberslite]
 drf-spectacular==0.27.2
 # PostGIS는 DB 이미지가 담당
 redis==5.0.7
