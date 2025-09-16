@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiExample
-from .serializers import RegistrationSerializer, LoginSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, LogoutSerializer
 
 class RegistrationView(APIView):
     @extend_schema(
@@ -85,6 +85,7 @@ class LogoutView(APIView):
         tags=["auth"],
         operation_id="logout",
         description="Logout the user (client-side token discard).",
+        request=LogoutSerializer
         responses={
             205: OpenApiResponse(description="Logout successful."),
         },
@@ -92,18 +93,18 @@ class LogoutView(APIView):
             OpenApiExample(
                 "Request example",
                 value={
-                    'refresh_token': 'your_refresh_token_here',
+                    'refresh': 'your_refresh_token_here',
                 }
             )
         ]
     )
     def post(self, request):
-        refresh_toekn = request.data.get("refresh_token")
-        if not refresh_toekn:
-            return Response({"ok": False, "error": "refresh_token is required."}, status=status.HTTP_400_BAD_REQUEST)
+        refresh = request.data.get("refresh")
+        if not refresh:
+            return Response({"ok": False, "error": "refresh token is required."}, status=status.HTTP_400_BAD_REQUEST)
         
         try: 
-            token = RefreshToken(refresh_toekn)
+            token = RefreshToken(refresh)
             token.blacklist()
         except Exception:
             return Response({"ok": False, "error": "Invalid refresh token."}, status=status.HTTP_400_BAD_REQUEST)
