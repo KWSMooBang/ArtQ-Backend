@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
         # clean empty strings to None
         return value or None
 
-    def create_user(self, first_name, last_name, username, password, nickname, email=None, phone_number=None, **extra_fields):
+    def create_user(self, first_name, last_name, username, password, nickname, email=None, phone=None, **extra_fields):
         if not first_name:
             raise ValueError("first_name field is necessary.")
         if not last_name:
@@ -28,7 +28,7 @@ class UserManager(BaseUserManager):
             raise ValueError("nickname field is necessary.")
 
         email = self.normalize_email(self._clean_optional(email))
-        phone_number = self._clean_optional(phone_number)
+        phone = self._clean_optional(phone)
 
         user = self.model(
             first_name=first_name,
@@ -36,14 +36,14 @@ class UserManager(BaseUserManager):
             username=username,
             nickname=nickname,
             email=email,
-            phone_number=phone_number,
+            phone=phone,
             **extra_fields,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, first_name, last_name, username, password, nickname, email=None, phone_number=None, **extra_fields):
+    def create_superuser(self, first_name, last_name, username, password, nickname, email=None, phone=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
@@ -60,7 +60,7 @@ class UserManager(BaseUserManager):
             password=password,
             nickname=nickname,
             email=email,
-            phone_number=phone_number,
+            phone=phone,
             **extra_fields,
         )
 

@@ -31,6 +31,6 @@ class RegistrationSerializer(serializers.Serializer):
             password=validated_data.get('password'),
             nickname=validated_data.get('nickname'),
             email=(validated_data.get('email') or None),
-            phone_number=(validated_data.get('phone') or None),
+            phone=(validated_data.get('phone') or None),
             birth_date=validated_data.get('birth_date'),
         )
