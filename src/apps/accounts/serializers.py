@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework import serializers
+from rest_framework_simplejwt import serializers as jwt_serializers 
 
 User = get_user_model()
 
@@ -37,7 +38,7 @@ class RegistrationSerializer(serializers.Serializer):
         )
         
         
-class LoginSerializer(serializers.TokenObtainPairSerializer):
+class LoginSerializer(jwt_serializers.TokenObtainPairSerializer):
     def valiedate(self, attrs):
         username = attrs.get('username')
         password = attrs.get('password')
