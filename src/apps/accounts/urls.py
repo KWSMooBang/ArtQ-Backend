@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import RegistrationView, LoginView
+from .views import RegistrationView, LoginView, LogoutView
 
 
 urlpatterns = [
     path('registration/', RegistrationView.as_view(), name='registration'),
     path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LoginView.as_view(), name='logout'),  # Placeholder for logout view
+    path('logout/', LogoutView.as_view(), name='logout'),  # Placeholder for logout view
 ]

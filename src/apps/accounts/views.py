@@ -86,8 +86,16 @@ class LogoutView(APIView):
         operation_id="logout",
         description="Logout the user (client-side token discard).",
         responses={
-            200: OpenApiResponse(description="Logout successful."),
-        }
+            205: OpenApiResponse(description="Logout successful."),
+        },
+        examples=[
+            OpenApiExample(
+                "Request example",
+                value={
+                    'refresh_token': 'your_refresh_token_here',
+                }
+            )
+        ]
     )
     def post(self, request):
         refresh_toekn = request.data.get("refresh_token")

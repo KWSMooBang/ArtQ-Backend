@@ -57,3 +57,7 @@ class LoginSerializer(jwt_serializers.TokenObtainPairSerializer):
         data = super().validate(attrs)
         
         return data
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
