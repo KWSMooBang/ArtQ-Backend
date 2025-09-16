@@ -35,10 +35,8 @@ urlpatterns = [
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     
-    # Auth (JWT)
-    path('v1/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # Auth with JWT
+    path('v1/auth/', include('apps.accounts.urls')),
     path('v1/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('v1/auth/verify/', TokenVerifyView.as_view(), name='token_verify'),
-
-    path('v1/auth/', include('apps.accounts.urls')),
 ]
