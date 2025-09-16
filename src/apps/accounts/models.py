@@ -68,8 +68,10 @@ class User(AbstractUser):
     # user UUID as basic Public Key
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nickname = models.CharField(max_length=30)
+    
     email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=20, unique=True, null=True, blank=True, validators=[phone_validator])
+    
     birth_date = models.DateField(null=True, blank=True)
     
     email_verified = models.BooleanField(default=False)
