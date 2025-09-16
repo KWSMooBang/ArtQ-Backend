@@ -80,7 +80,7 @@ class User(AbstractUser):
     # connect custom user manager
     objects = UserManager()
 
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'nickname']
     
     def __str__(self):
         return self.nickname or self.username

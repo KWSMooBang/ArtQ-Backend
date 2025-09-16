@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from rest_framework import serializers
 
 User = get_user_model()
@@ -34,3 +35,24 @@ class RegistrationSerializer(serializers.Serializer):
             phone=(validated_data.get('phone') or None),
             birth_date=validated_data.get('birth_date'),
         )
+        
+        
+class LoginSerializer(serializers.TokenObtainPairSerializer):
+    def valiedate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+        
+        user = User.objects.filter(
+            Q(username=username)
+        ).first()
+        
+        if not user or not user.check_password(password):
+            raise self.error_messages['no_active_account']
+        
+        attrs = {
+            'username': user.username,
+            'password': password,
+        }
+        data = super().validate(attrs)
+        
+        return data
