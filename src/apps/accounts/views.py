@@ -1,8 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.views import TokenObtainPairView
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiExample
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, LoginSerializer
 
 class RegistrationView(APIView):
     @extend_schema(
@@ -51,3 +52,27 @@ class RegistrationView(APIView):
             serializer.save()
             return Response({"ok": True}, status=status.HTTP_201_CREATED)
         return Response({"ok": False, "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginView(APIView):
+    @extend_schema(
+        tags=["auth"],
+        operation_id="login",
+        description="Obtain JWT token pair (access and refresh) by providing username and password.",
+        request=LoginSerializer,
+        responses={
+            200: OpenApiResponse(description="Login successful, returns JWT tokens."),
+            400: OpenApiResponse(description="Invalid credentials."),
+        },
+        examples=[
+            OpenApiExample(
+                "Request example",
+                value={
+                    'username': 'loginID',
+                    'password': 'loginPW',
+                }
+            )
+        ]
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
