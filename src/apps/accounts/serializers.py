@@ -60,3 +60,16 @@ class LoginSerializer(jwt_serializers.TokenObtainPairSerializer):
 
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
+    
+    
+class ShowProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'username', 'nickname', 'email', 'phone', 'birth_date'] 
+        read_only_fields = fields
+        
+        
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['nickname', 'email', 'phone', 'birth_date']
