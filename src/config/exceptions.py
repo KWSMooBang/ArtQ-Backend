@@ -25,17 +25,13 @@ def api_exception_handler(exception, context):
 
         if isinstance(exception, ValidationError):
             code = "validation_error"
-            message = "Input field is not valid."
             field_errors = response.data
         elif isinstance(exception, (AuthenticationFailed, NotAuthenticated)):
             code = "auth_failed"
-            message = "Authentication is required."
         elif isinstance(exception, PermissionDenied):
             code = "permission_denied"
-            message = "Permission denied."
-        else:
-            # ohter exceptions like NotFound, MethodNotAllowed, etc.
-            message = response.data if isinstance(response.data, str) else None
+        
+        message = response.data if isinstance(response.data, str) else None
 
         data = {"ok": False, "error": {"code": code, "message": message}}
         if field_errors:
@@ -44,6 +40,6 @@ def api_exception_handler(exception, context):
 
     # if DRF did not handle the exception, return a generic 500 error response
     return Response(
-        {"ok": False, "error": {"code": "server_error", "message": "서버 오류가 발생했습니다."}},
+        {"ok": False, "error": {"code": "server_error", "message": "server error"}},
         status=status.HTTP_500_INTERNAL_SERVER_ERROR,
     )
