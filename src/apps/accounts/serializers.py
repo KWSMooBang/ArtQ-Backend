@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt import serializers as jwt_serializers 
 
 User = get_user_model()
@@ -48,15 +49,13 @@ class LoginSerializer(jwt_serializers.TokenObtainPairSerializer):
         ).first()
         
         if not user or not user.check_password(password):
-            raise self.error_messages['no_active_account']
+            raise AuthenticationFailed("Invalid username or password.")
         
         attrs = {
             'username': user.username,
             'password': password,
         }
-        data = super().validate(attrs)
-        
-        return data
+        return super().validate(attrs)
 
 
 class LogoutSerializer(serializers.Serializer):

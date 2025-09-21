@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiExample
@@ -20,7 +21,7 @@ class RegistrationView(APIView):
         request=RegistrationSerializer,
         responses={
             201: OpenApiResponse(description="Register new user successfully."),
-            400: OpenApiResponse(description="Invalid input data."),
+            400: OpenApiResponse(description="Bad Request"),
         },
         examples=[
             OpenApiExample(
@@ -50,10 +51,9 @@ class RegistrationView(APIView):
     )
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"ok": True}, status=status.HTTP_201_CREATED)
-        return Response({"ok": False, "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)   # if fail, DRF throw ValidationError
+        serializer.save()
+        return Response({"ok": True}, status=status.HTTP_201_CREATED)
 
 
 class LoginView(TokenObtainPairView):
@@ -88,6 +88,7 @@ class LogoutView(APIView):
         request=LogoutSerializer,
         responses={
             205: OpenApiResponse(description="Logout successful."),
+            400: OpenApiResponse(description="Refresh token error."),
         },
         examples=[
             OpenApiExample(
@@ -101,12 +102,11 @@ class LogoutView(APIView):
     def post(self, request):
         refresh = request.data.get("refresh")
         if not refresh:
-            return Response({"ok": False, "error": "refresh token is required."}, status=status.HTTP_400_BAD_REQUEST)
-        
+            raise ValidationError({"refresh": "Refresh token is required."})
         try: 
             token = RefreshToken(refresh)
             token.blacklist()
         except Exception:
-            return Response({"ok": False, "error": "Invalid refresh token."}, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError({"refresh": "Invalid refresh token."})
         
         return Response({"ok": True}, status=status.HTTP_205_RESET_CONTENT)
