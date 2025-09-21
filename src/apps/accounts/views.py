@@ -121,7 +121,7 @@ class ProfileView(APIView):
         description="Retrieve the profile of the authenticated user.",
         request=ShowProfileSerializer,
         responses={
-            200: OpenApiResponse(description="Returns the user's profile information."),
+            200: OpenApiResponse(description="Returns the user's profile information.", response=ShowProfileSerializer),
             401: OpenApiResponse(description="Authentication credentials were not provided or are invalid."),
         }
     )
@@ -135,7 +135,7 @@ class ProfileView(APIView):
         description="Update the profile of the authenticated user. Partial updates are allowed.",
         request=UpdateProfileSerializer,
         responses={
-            200: OpenApiResponse(description="Profile updated successfully."),
+            200: OpenApiResponse(description="Profile updated successfully.", response=ShowProfileSerializer),
             400: OpenApiResponse(description="Bad Request"),
             401: OpenApiResponse(description="Authentication credentials were not provided or are invalid."),
         }
