@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiExample
-from .serializers import RegistrationSerializer, LoginSerializer, LogoutSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, LogoutSerializer, ShowProfileSerializer, UpdateProfileSerializer
 
 class RegistrationView(APIView):
     @extend_schema(
@@ -110,3 +110,38 @@ class LogoutView(APIView):
             raise ValidationError({"refresh": "Invalid refresh token."})
         
         return Response({"ok": True}, status=status.HTTP_205_RESET_CONTENT)
+    
+    
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    @extend_schema(
+        tags=["profile"],
+        operation_id="show_profile",
+        description="Retrieve the profile of the authenticated user.",
+        request=ShowProfileSerializer,
+        responses={
+            200: OpenApiResponse(description="Returns the user's profile information."),
+            401: OpenApiResponse(description="Authentication credentials were not provided or are invalid."),
+        }
+    )
+    def get(self, request):
+        profile = ShowProfileSerializer(request.user)
+        return Response(profile.data, status=status.HTTP_200_OK)
+    
+    @extend_schema(
+        tags=["profile"],
+        operation_id="update_profile",
+        description="Update the profile of the authenticated user. Partial updates are allowed.",
+        request=UpdateProfileSerializer,
+        responses={
+            200: OpenApiResponse(description="Profile updated successfully."),
+            400: OpenApiResponse(description="Bad Request"),
+            401: OpenApiResponse(description="Authentication credentials were not provided or are invalid."),
+        }
+    )
+    def patch(self, request):
+        serializer = UpdateProfileSerializer(request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        profile = serializer.save()
+        return Response(ShowProfileSerializer(profile).data, status=status.HTTP_200_OK)
