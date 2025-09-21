@@ -14,7 +14,7 @@ class Artist(models.Model):
 
 class Artwork(models.Model):
     source = models.ForeignKey(Source, on_delete=models.SET_NULL, null=True, related_name='artworks')
-    source_id = models.CharField(max_length=100, db_index=True)
+    source_identifier = models.CharField(max_length=100, db_index=True)
     uid = models.CharField(max_length=150, unique=True)
     
     title = models.CharField(max_length=500, db_index=True)
