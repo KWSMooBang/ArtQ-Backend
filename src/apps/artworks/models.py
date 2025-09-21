@@ -11,6 +11,13 @@ class Artist(models.Model):
     birth_year = models.PositiveIntegerField(null=True, blank=True)
     death_year = models.PositiveIntegerField(null=True, blank=True) 
     nationality = models.CharField(max_length=50, null=True, blank=True)
+    
+    image_url = models.URLField(blank=True, null=True)
+    thumb_url = models.URLField(blank=True, null=True)
+    image_attr = models.CharField(max_length=500, blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Artwork(models.Model):
     source = models.ForeignKey(Source, on_delete=models.SET_NULL, null=True, related_name='artworks')
