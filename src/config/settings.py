@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Local Apps
     'apps.accounts',
+    'apps.artworks',
     
     # Third-party Apps
     'corsheaders',
