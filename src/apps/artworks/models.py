@@ -42,7 +42,6 @@ class Artwork(models.Model):
     collection = models.CharField(max_length=255, blank=True)
     credit_line = models.CharField(max_length=500, blank=True)
     license = models.CharField(max_length=100, blank=True)
-    is_open_access = models.BooleanField(default=False)
     external_url = models.URLField(blank=True, null=True)
     
     image_url = models.URLField(blank=True, null=True)
