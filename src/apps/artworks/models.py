@@ -18,6 +18,13 @@ class Artist(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+class ArtistExplanation(models.Model):
+    artist = models.OneToOneField(Artist, on_delete=models.CASCADE, related_name='explanation')
+    summary = models.TextField(blank=True)
+    deep_explanation = models.TextField(blank=True)
+    sources = models.TextField(blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Artwork(models.Model):
     source = models.ForeignKey(Source, on_delete=models.SET_NULL, null=True, related_name='artworks')
@@ -45,7 +52,7 @@ class Artwork(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-class Explanation(models.Model):
+class ArtworkExplanation(models.Model):
     artwork = models.OneToOneField(Artwork, on_delete=models.CASCADE, related_name='explanation')
     summary = models.TextField(blank=True)
     deep_explanation = models.TextField(blank=True)
